@@ -1,0 +1,88 @@
+<html lang="ja">
+  <head>
+    <style>
+      html,
+      body {
+        margin: 0;
+        padding: 0;
+      }
+      form {
+        margin-top: 2rem;
+      }
+      label {
+        display: inline-block;
+        width: 60px;
+        text-align: right;
+        margin-right: 0.5rem;
+      }
+      button {
+        margin-top: 1rem;
+        padding: 0.4rem 2rem;
+        border: 0;
+        border-radius: 4px;
+        background-color: #333;
+        color: #eee;
+      }
+      button:hover {
+        background-color: #555;
+        cursor: pointer;
+      }
+      .container {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-flow: wrap;
+        flex-direction: column;
+        height: 100vh;
+        text-align: center;
+      }
+      .target { color: #69c; }
+      .item {
+        margin-top: 0.5rem;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div>
+        <header>
+          <h1>implicauzant</h1>
+          <span class="target">{{ .client_id }}</span><br />
+          に匿名アカウントでログインします。<br />
+          お好きな名前とあなただけの秘密のパスワードを入力してください。
+        </header>
+      </div>
+
+      <form method="POST">
+        <div class="item">
+          <label for="username">user</label>
+          <input
+            type="text"
+            autocomplete="username"
+            id="username"
+            name="name"
+            maxlength="40"
+            required
+          />
+        </div>
+        <div class="item">
+          <label for="current-password">secret</label>
+          <input
+            type="password"
+            autocomplete="current-password"
+            id="current-password"
+            name="password"
+            maxlength="2048"
+            required
+          />
+        </div>
+        <input
+          type="hidden"
+          name="hash"
+          value="{{ .hash }}"
+        />
+        <button type="submit">ok</button>
+      </form>
+    </div>
+  </body>
+</html>
