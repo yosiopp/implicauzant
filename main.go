@@ -6,13 +6,13 @@ import (
 	"github.com/golang-jwt/jwt/v5"
 	"html/template"
 	"log"
+	"math/rand"
 	"net/http"
 	"net/url"
 	"os"
+	"strconv"
 	"strings"
 	"time"
-	"strconv"
-	"math/rand"
 )
 
 func main() {
@@ -68,8 +68,6 @@ func authorize(w http.ResponseWriter, req *http.Request) {
 			return
 		}
 		uri := param.Redirect_uri + "#" + res
-
-		fmt.Println(res, uri)
 
 		w.Header().Set("Location", uri)
 		w.WriteHeader(302)
@@ -162,14 +160,14 @@ func getIdToken(param Param, name, password string) (string, error) {
 
 func getSub(name, password string) string {
 	salt := getEnv("IMPLICAUZANT_SALT", "")
-	postfix := getEnv("IMPLICAUZANT_SUBJECT_POSTFIX","@implicauzant")
+	postfix := getEnv("IMPLICAUZANT_SUBJECT_POSTFIX", "@implicauzant")
 	sub := sha1.Sum([]byte(name + password + salt))
 	return fmt.Sprintf("%x%s", sub, postfix)
 }
 
 func getEnv(key, fallback string) string {
-    if value, ok := os.LookupEnv(key); ok {
-        return value
-    }
-    return fallback
+	if value, ok := os.LookupEnv(key); ok {
+		return value
+	}
+	return fallback
 }
